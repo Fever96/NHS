@@ -4,13 +4,12 @@ import xlrd
 import xlwt
 import numpy as np
 from collections import defaultdict 
+import pandas as pd
 
 def read_data(path):
     file=open(path)
     data = csv.reader(file)
     return data
-
-
 
 def merge_concept():
     file = open('../database/merge_con_gb_int_z.csv','w+')
@@ -30,7 +29,6 @@ def merge_concept():
         active_list.append(item[2])
         moduleId_list.append(item[3])
         definitionStatusId_list.append(item[4])
-
 
     for item in data_int:
         id_list.append(item[0])
@@ -52,8 +50,6 @@ def merge_concept():
             
     
     file.close
-
-
 
 def merge_description():
     file = open('../database/merge_des_gb_int_z.csv','w+')
@@ -111,7 +107,6 @@ def merge_description():
     file.close
 
 
-
 def active_filter_con():
     #id_list=list()
     #effectiveTime_list=list()
@@ -151,8 +146,7 @@ def active_filter_con():
         active_l.append([])
         active_l[row].append(full_data_sort[row][0])
         active_l[row].append(full_data_sort[row][2])
-       
-        
+
 
     for k,v in active_l:
         activeDict[k].append(v)
@@ -176,7 +170,6 @@ def active_filter_des():
 
     full_data=list()
     active_l=list()
-
 
     merge_con_data=list()
     indexTWO=0
@@ -218,12 +211,9 @@ def active_filter_des():
         active_l.append([])
         active_l[row].append(full_data_sort[row][0])
         active_l[row].append(full_data_sort[row][2])
-       
-        
 
     for k,v in active_l:
         activeDict[k].append(v)
-
 
     for i in range(len(full_data_sort)):
         if full_data_sort[i][0] in activeDict:
@@ -243,22 +233,65 @@ def active_filter_des():
     file.close()
      
 
+def merge_relationship():
+    data_gb=pd.read_csv('../database/relationship_gb.csv')
+    data_int=pd.read_csv('../database/relationship_int.csv')
 
+    linked_list=pd.concat([data_gb,data_int],axis=0)
+    linked_list=linked_list.drop_duplicates()
+    linked_list.to_csv('../database/relationship.csv',index=False)
 
+def active_filter_rela():
+    data=pd.read_csv('../database/relationship.csv')
+    dict={}
+    for index,row in data.iterrows():
+        print(index)
+        key=str(row['id'])+"_"+str(row['moduleId'])+"_"+str(row['sourcedId'])\
+            +"_"+str(row['destinationId'])+"_"+str(row['relationshipGroup'])\
+            +"_"+str(row['typeId'])+"_"+str(row['chracteristicTypeId'])+"_"+str(row['modifierId'])
+        value=str(row['effectivetime'])+"_"+str(row['active'])
+        if(key in dict):
+            storage=dict[key]
+            time1,active_flag1=storage.split("_") #time in dict
+            time2,active_flag2=value.split("_")  #time new input
+            if(int(time1)>=int(time2)):
+                if(active_flag1=='0' and active_flag2!='0'):
+                    dict.pop(key)
+                elif(active_flag1=='0' and active_flag2=='0'):
+                    dict.pop(key)
+                else:
+                    dict[key]=storage
+            elif(int(time2)>int(time1)):
+                if(active_flag1=='0' and active_flag2=='0'):
+                    dict.pop(key)
+                elif(active_flag2=='0' and active_flag1=='1'):
+                    dict.pop(key)
+                else:
+                    dict[key]=value
+        else:
+            dict[key]=value
 
+    dict_res={}
+    for key,value in dict.items():
+        effectivetime,active=value.split("_")
+        id, moduleId, sourcedId, destinationId, relationshipGroup, typeId, chracteristicTypeId, modifierId=key.split("_")
+        if(active!='0'):
+            list=[]
+            list.append(effectivetime)
+            list.append(active)
+            list.append(moduleId)
+            list.append(sourcedId)
+            list.append(destinationId)
+            list.append(relationshipGroup)
+            list.append(typeId)
+            list.append(chracteristicTypeId)
+            list.append(modifierId)
+            dict_res[id]=list
 
-
-
-
-
-
-
-
-
-
-
+    res=pd.DataFrame.from_dict(dict_res,orient='index')
+    res.to_csv('../database/relationship_gb_int_activelist.csv')
 
 if __name__ == '__main__':
-    active_filter_des()  
+    active_filter_rela()
     
 
