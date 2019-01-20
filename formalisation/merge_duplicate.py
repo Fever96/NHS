@@ -49,7 +49,7 @@ def merge_concept():
             file.write(merge+"\n")
             
     
-    file.close
+    file.close()
 
 def merge_description():
     file = open('../database/merge_des_gb_int_z.csv','w+')
@@ -104,7 +104,7 @@ def merge_description():
             file.write(merge+"\n")
             
     
-    file.close
+    file.close()
 
 
 def active_filter_con():
@@ -147,10 +147,8 @@ def active_filter_con():
         active_l[row].append(full_data_sort[row][0])
         active_l[row].append(full_data_sort[row][2])
 
-
     for k,v in active_l:
         activeDict[k].append(v)
-
 
     for i in range(len(full_data_sort)):
         if full_data_sort[i][0] in activeDict:
