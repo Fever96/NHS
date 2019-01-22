@@ -47,8 +47,8 @@ def merge_concept():
         if merge not in seen_list:
             #seen_list.append(merge_list[index3])
             file.write(merge+"\n")
-            
-    
+
+
     file.close()
 
 def merge_description():
