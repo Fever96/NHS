@@ -224,12 +224,12 @@ def active_filter_des():
     for k,v in active_l:
         activeDict[k].append(v)
 
-
+    num=0
     for i in range(len(full_data_sort)):
         if full_data_sort[i][0] in activeDict:
             #print(activeDict[full_data_sort[i][0]])
             len_ac=len(activeDict[full_data_sort[i][0]])-1
-            if activeDict[full_data_sort[i][0]][len_ac]=='1':
+            if activeDict[full_data_sort[i][0]][len_ac]=='1':  
                 file.write(str(full_data_sort[i][0])+"$")
                 file.write(str(full_data_sort[i][1])+"$")
                 file.write(str(full_data_sort[i][2])+"$")
@@ -238,9 +238,15 @@ def active_filter_des():
                 file.write(str(full_data_sort[i][5])+"$")
                 file.write(str(full_data_sort[i][6])+"$")
                 file.write(str(full_data_sort[i][7])+"$")
-                file.write(str(full_data_sort[i][8])+"\n")
-                print(str(full_data_sort[i][0]))
+                file.write(str(full_data_sort[i][8]))
+                if '"' in full_data_sort[i][7]:
+                    print(full_data_sort[i][7])
+                
+    print(num)
     file.close()
+
+
+
      
 
 
