@@ -1,8 +1,9 @@
 import xlrd
 import xlwt
 import os
+import re
 
-path=os.getcwd()+'/preference card/'
+path=os.getcwd()+'../preference card/'
 #preference_card
 def precedure_surgeon():
     sur=''
@@ -193,7 +194,122 @@ def check_empty(test):      #check a list empty or not
     return True
 
 def drugs():
-    print()
+    maybe_error_list=[]
+    xlsfile="../preference card/Final-merged preference card.xlsx"
+    book=xlrd.open_workbook(xlsfile)
+    sheet=[]
+    for i in book.sheets():
+        sheet.append(i.name)
+
+    for index,sheet_item in enumerate(sheet):
+        table = book.sheet_by_name(sheet_item)
+        #print(sheet_item)
+        rows=table.nrows
+        open=[]
+        avaiable=[]
+        flag_drug=0
+        for i in range(rows):
+            if(table.row_values(i)[0]=='Drugs'):
+                flag_drug=i
+
+        flag_drug_end=0
+        for i1 in range(flag_drug,rows):
+            if(table.row_values(i1)[0]=='Equipment' or table.row_values(i1)[0]=='EQUIPMENT' or table.row_values(i1)[0]=='Theatre Equipment'):
+                flag_drug_end=i1
+
+        while(flag_drug<flag_drug_end):
+            if(table.row_values(flag_drug)[0]=='Drugs' and table.row_values(flag_drug+1)[0]=='Open'
+                    and table.row_values(flag_drug+1)[5]=='Available'):
+                flag_drug=flag_drug+2
+                for i2 in range(flag_drug,flag_drug_end):
+                    for open_temp1 in table.row_values(i2)[0:3]:
+                        #print(open_temp1)
+                        if(open_temp1):
+                            open.append(open_temp1)
+                    for avaiable_temp1 in table.row_values(i2)[4:7]:
+                        if(avaiable_temp1):
+                            avaiable.append(avaiable_temp1)
+                flag_drug=flag_drug_end
+
+            elif(table.row_values(flag_drug)[0]=='Drugs' and table.row_values(flag_drug)[5]=='Available'
+                and table.row_values(flag_drug+1)[0]=='Open'):
+                flag_drug=flag_drug+1
+                for i3 in range(flag_drug,flag_drug_end):
+                    for open_temp2 in table.row_values(i3)[0:3]:
+                        if(open_temp2 and open_temp2!='Open'):
+                            open.append(open_temp2)
+                    for avaiable_temp2 in table.row_values(i3)[4:7]:
+                        if(avaiable_temp2):
+                            avaiable.append(avaiable_temp2)
+
+                flag_drug=flag_drug_end
+
+            elif(table.row_values(flag_drug)[0]=='Drugs' and table.row_values(flag_drug+1)[0]=='Open'
+                    and table.row_values(flag_drug+1)[4]=='Have Standby'):
+                flag_drug=flag_drug+2
+                for i4 in range(flag_drug,flag_drug_end):
+                    for open_temp3 in table.row_values(i4)[0:3]:
+                        #print(open_temp3)
+                        if(open_temp3):
+                            open.append(open_temp3)
+                    for avaiable_temp3 in table.row_values(i4)[4:7]:
+                        if(avaiable_temp3):
+                            avaiable.append(avaiable_temp3)
+                flag_drug=flag_drug_end
+            else:
+                print("Error happen in sheet:"+str(sheet_item))
+                flag_drug=flag_drug_end
+
+        print(sheet_item)
+        open_new=[]
+        for ii in open:
+            if (re.match(r'-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$', str(ii)) == None):
+                open_new.append(ii)
+
+        available_new=[]
+        for iii in avaiable:
+            if (re.match(r'-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$', str(iii)) == None):
+                available_new.append(iii)
+
+
+        print("Open")
+        print(open_new)
+        print("Available")
+        print(available_new)
+
+        if(len(open_new)!=len(open) or len(available_new)!=len(avaiable)):
+            maybe_error_list.append(sheet_item)
+
+    print(maybe_error_list)
+
+
+def equipment():
+    maybe_error_list=[]
+    xlsfile="../preference card/Final-merged preference card.xlsx"
+    book=xlrd.open_workbook(xlsfile)
+    sheet=[]
+    for i in book.sheets():
+        sheet.append(i.name)
+
+    for index,sheet_item in enumerate(sheet):
+        table = book.sheet_by_name(sheet_item)
+        rows=table.nrows
+        print("sheet_name:"+str(sheet_item))
+        open=[]
+        avaiable=[]
+        flag_equipment=0
+        for i in range(rows):
+            if(table.row_values(i)[0]=='Equipment' or table.row_values(i)[0]=='EQUIPMENT' or table.row_values(i)[0]=='Theatre Equipment'):
+                flag_equipment=i
+
+        flag_equipment_end=0
+        for i1 in range(flag_equipment,rows):
+            if(table.row_values(i1)[0]=='Instruments' or table.row_values(i1)[0]=='Surgical Instruments (NHNN) Open'):
+                flag_equipment_end=i1
+
+        for i2 in range(flag_equipment+1,flag_equipment_end):
+            print(table.row_values(i2)[0])
+
 
 if __name__ == '__main__':
-    print("test")
+    equipment()
