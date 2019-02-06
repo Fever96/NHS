@@ -1,0 +1,24 @@
+NHS number/270073008/NHS number/1.0
+PAS number/11779005/Normal number/0.5
+PAS number/27192005/PAS/0.5
+PAS number/39597009/Dibucaine number/0.5
+PAS number/78535000/Abnormal number/0.5
+PAS number/118536000/Entitic number/0.5
+PAS number/255211006/Shuttle number/0.5
+PAS number/260354000/Moderate number/0.5
+PAS number/272065005/Cardinal number/0.5
+PAS number/272070003/Ordinal number/0.5
+PAS number/302792004/Sperm number/0.5
+PAS number/389569004/Roche number/0.5
+PAS number/396278008/Identification number/0.5
+PAS number/270073008/NHS number/0.5
+PAS number/15947002/PAS stain/0.5
+PAS number/417674001/Propanol number/0.5
+PAS number/709463006/Root number/0.5
+PAS number/710001002/Tooth number/0.5
+PAS number/1601000122107/Passport number/0.5
+PAS number/734005006/Telephone number/0.5
+PAS number/734005006/Phone number/0.5
+PAS number/734048000/0.088 (number)/0.5
+PAS number/1017981000000105/Ro-02-0683 number/0.5
+PAS number/195361000000103/Propranolol number/0.5
