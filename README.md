@@ -1,7 +1,15 @@
-# NHS
-NHS Clinic Stardand
-mode有下列几种形态字符串:
-r 打开只读文件，该文件必须存在。
-r+ 打开可读写的文件，该文件必须存在。
-w 打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则建立该文件。
-w+ 打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
+# NHS workplacement
+##
+we help to build the first electronic medical records in UK
+
+##
+preference card is unstructured excel sheets
+we process the preference card to structured format
+in fold preCard_process 
+output in extract_preference card
+
+##
+merge_data is a script
+to delete some unuseful data in database.
+
+
