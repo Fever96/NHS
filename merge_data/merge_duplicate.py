@@ -235,16 +235,16 @@ def active_filter_des():
     file.close()
 
 
-
-     
-
 def merge_relationship():
     data_gb=pd.read_csv('../database/relationship_gb.csv')
     data_int=pd.read_csv('../database/relationship_int.csv')
-
+    print(len(data_gb))
+    print(len(data_int))
     linked_list=pd.concat([data_gb,data_int],axis=0)
+    print(len(linked_list))
     linked_list=linked_list.drop_duplicates()
-    linked_list.to_csv('../database/relationship.csv',index=False)
+    print(len(linked_list))
+    #linked_list.to_csv('../database/relationship.csv',index=False)
 
 def active_filter_rela():
     data=pd.read_csv('../database/relationship.csv')
@@ -273,6 +273,8 @@ def active_filter_rela():
                     dict.pop(key)
                 else:
                     dict[key]=value
+            else:
+                dict[key]=value
         else:
             dict[key]=value
 
@@ -297,6 +299,7 @@ def active_filter_rela():
     res.to_csv('../database/relationship_gb_int_activelist.csv')
 
 if __name__ == '__main__':
-    active_filter_rela()
+    #active_filter_rela()
+    merge_relationship()
     
 

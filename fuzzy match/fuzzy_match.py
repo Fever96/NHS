@@ -162,7 +162,6 @@ def ratio_range(ID, date, name, ratio):
     # print(sortMatrix1)
     return sortMatrix1
 
-
 def descrption():
     file1=open('description_gb.csv','r',encoding='utf-8-sig')
     file2=open('description_int.csv','r',encoding='utf-8')
